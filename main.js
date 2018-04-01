@@ -7,7 +7,7 @@ let goal;
 let countGoal = 0;
 let speedSnake = 100;
 
-
+// Create Table
 for (let i = 0; i < 30; i++) {
     let tr = table.insertRow(i);
     
@@ -40,7 +40,7 @@ function runGoal() {
 runGoal();
 
 // snake
-let lenghtSnake = 3;
+let lenghtSnake = 2;
 let snake = table.firstChild.childNodes[4].childNodes[4];
 
 let bodySnake = [];
@@ -89,7 +89,11 @@ function snakeDown() {
         
         snake.classList.remove('snake');
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
-        createBodySnake();
+        console.log(bodySnake[lenghtSnake-1]);
+        if (bodySnake[lenghtSnake-1]) {
+            bodySnake[lenghtSnake-1].style.background = '#ccc';
+        }
+        createSnake();
         verif();
         snake.classList.add('snake');
     }, speedSnake);
@@ -110,6 +114,8 @@ function snakeUp() {
         }
         snake.classList.remove('snake');
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
+        bodySnake[0].style.background = '#ccc'
+        createSnake();
         verif();
         snake.classList.add('snake');
     }, speedSnake);
@@ -154,17 +160,18 @@ function snakeLeft() {
     }, speedSnake);
 }
 // Create Body Snake
-function createBodySnake() {
-    if (bodySnake[lenghtSnake-1]) {
-        bodySnake[lenghtSnake-1].style.background = '#ccc';
-    }
+function createSnake() {
+    // for (let s = 0; s < lenghtSnake; s++) {
+    //     bodySnake[s].
+        
+    // }
     for (let x = 0; x < lenghtSnake; x++) {
         if (x == 0) {
             bodySnake[0] = snake.parentElement.previousElementSibling.children[4];
         } else {
             bodySnake[x] = bodySnake[x-1].parentElement.previousElementSibling.children[4];
         }
-        bodySnake[x].style.background = '#fff';    
+        bodySnake[x].style.background = '#000';    
     }
 }
 
