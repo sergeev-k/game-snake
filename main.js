@@ -5,7 +5,7 @@ let table = document.createElement('table');
 let resGoal = document.querySelector('#resultGoal > span');
 let goal;
 let countGoal = 0;
-let speedSnake = 100;
+let speedSnake = 500;
 
 // Create Table
 for (let i = 0; i < 30; i++) {
@@ -50,6 +50,8 @@ snake.classList.add('snake');
 
 let verPos = 4;
 let horPos = 4; 
+let v = 0;
+let h = 0;
 let runSnakeDown;
 let runSnakeUp;
 let runSnakeRight;
@@ -80,7 +82,7 @@ function snakeDown() {
     clearInterval(runSnakeLeft);
     runSnakeDown = setInterval( () => {
         console.log('Snake Down');
-        
+        h += 1;
         horPos += 1;
         if (horPos > 29)  {
             horPos = 29;
@@ -89,7 +91,14 @@ function snakeDown() {
         
         snake.classList.remove('snake');
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
-        console.log(bodySnake[lenghtSnake-1]);
+
+// test snake
+        if (partSnake[0]) {
+           partSnake[0].style.background = '#ccc'; 
+        }
+        testSnake(h, 0);
+
+        // console.log(bodySnake[lenghtSnake-1]);
         if (bodySnake[lenghtSnake-1]) {
             bodySnake[lenghtSnake-1].style.background = '#ccc';
         }
@@ -106,7 +115,7 @@ function snakeUp() {
     clearInterval(runSnakeLeft);
     runSnakeUp = setInterval( () => {
         console.log('Snake Up');
-        
+        h -= 1;
         horPos -= 1;
         if (horPos < 0)  {
             horPos = 0;
@@ -114,6 +123,10 @@ function snakeUp() {
         }
         snake.classList.remove('snake');
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
+// test snake
+        partSnake[2].style.background = '#ccc';
+        testSnake(h, 0);
+
         bodySnake[0].style.background = '#ccc'
         createSnake();
         verif();
@@ -128,7 +141,7 @@ function snakeRight() {
     clearInterval(runSnakeLeft);
     runSnakeRight = setInterval( () => {
         console.log('Snake Right');
-        
+        v +=1;
         verPos += 1;
         if (verPos > 29)  {
             verPos = 29;
@@ -136,6 +149,10 @@ function snakeRight() {
         }
         snake.classList.remove('snake');
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
+// test Snake
+        console.log(`ver: ${v}, hor: ${h}`);
+        testSnake(h, v);
+        
         verif();
         snake.classList.add('snake');
     }, speedSnake); 
@@ -161,10 +178,6 @@ function snakeLeft() {
 }
 // Create Body Snake
 function createSnake() {
-    // for (let s = 0; s < lenghtSnake; s++) {
-    //     bodySnake[s].
-        
-    // }
     for (let x = 0; x < lenghtSnake; x++) {
         if (x == 0) {
             bodySnake[0] = snake.parentElement.previousElementSibling.children[4];
@@ -194,6 +207,18 @@ function verifAspect() {
     clearInterval(runSnakeDown);
     clearInterval(runSnakeRight);
     clearInterval(runSnakeLeft);
+}
+let partSnake = [];
+function testSnake(v = 0, h = 0) {
+
+    partSnake = [];
+    for (let l = 0; l < 3; l++) {
+        
+        let part = table.firstChild.childNodes[l + v].childNodes[h];
+        partSnake.push(part);
+        part.style.background = 'blue';
+        
+    }
 }
 
 snakeDown();
