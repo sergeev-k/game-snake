@@ -5,8 +5,16 @@ let table = document.createElement('table');
 let resGoal = document.querySelector('#resultGoal > span');
 let goal;
 let countGoal = 0;
-let lenghtSnake = 2;
-let speedSnake = 100;
+let lenghtSnake = 3;
+let speedSnake = 300;
+let verPos = 4;
+let horPos = 4;
+let runSnakeDown;
+let runSnakeUp;
+let runSnakeRight;
+let runSnakeLeft;
+let bodySn = [];
+let part; // var for add body
 
 // Create Table
 for (let i = 0; i < 30; i++) {
@@ -27,7 +35,6 @@ function runGoal() {
     }
     let ranGoal = Math.floor(Math.random() * 900);
     let choiceRow, choiceColl;
-    console.log(ranGoal);
     if (ranGoal > 30) {
         choiceRow = parseInt(ranGoal / 30);
         choiceColl = ranGoal - (choiceRow * 30);
@@ -35,39 +42,37 @@ function runGoal() {
     } else {
         goal = table.firstChild.childNodes[0].childNodes[ranGoal-1];
     }
-    goal.style.background = 'red';
+    goal.classList.add('goal');
 }
 runGoal();
 
 // snake
 let snake = table.firstChild.childNodes[4].childNodes[4];
-snake.classList.add('snake');
-let bodySn = [];
-
-let verPos = 4;
-let horPos = 4;
-let runSnakeDown;
-let runSnakeUp;
-let runSnakeRight;
-let runSnakeLeft;
-
+snake.style.background = '#fff';
+// body snace
+for (let j = 0; j < lenghtSnake; j++) {
+    if(part == undefined) {
+        part = snake.parentNode.previousSibling.childNodes[horPos];
+    } else {
+        part = part.parentNode.previousSibling.childNodes[horPos];
+    }
+    
+    console.log(part);
+    bodySn.push(part);
+    part.style.background = 'yellow';
+}
 
 document.addEventListener('keyup', hitKey, false);
 function hitKey(e) {
     let keyName  = e.key;
     
-    if(keyName == 'ArrowUp') {
-        snakeUp();
-    }
-    if(keyName == 'ArrowDown') {
-        snakeDown();
-    }
-    if(keyName == 'ArrowRight') {
-        snakeRight();
-    }
-    if(keyName == 'ArrowLeft') {
-        snakeLeft();
-    }
+    if(keyName == 'ArrowUp') snakeUp();
+    
+    if(keyName == 'ArrowDown') snakeDown();
+
+    if(keyName == 'ArrowRight') snakeRight();
+
+    if(keyName == 'ArrowLeft') snakeLeft();
 }
 
 // Run Snake Down
@@ -84,8 +89,16 @@ function snakeDown() {
             verifAspect();
         }
         
-        snake.classList.remove('snake');
+        snake.style.background = '#ccc';
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
+        snake.style.background = '#fff';
+    // new body snake
+        if(snake == goal) {
+            let newPartBody = snake.parentNode.previousSibling.childNodes[verPos];
+            newPartBody.style.background = 'yellow';
+            bodySn.unshift(newPartBody);
+        }
+        verif();
 
     // move body
         if (bodySn[0]) {
@@ -96,8 +109,6 @@ function snakeDown() {
         bodySn.push(body);
         body.style.background = 'yellow';
 
-        verif();
-        snake.classList.add('snake');
     }, speedSnake);
 }
 
@@ -113,8 +124,17 @@ function snakeUp() {
             horPos = 0;
             verifAspect();
         }
-        snake.classList.remove('snake');
+        snake.style.background = '#ccc';
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
+        snake.style.background = '#fff';
+    // new body snake
+        if(snake == goal) {
+            let newPartBody = snake.parentNode.nextSibling.childNodes[verPos];
+            newPartBody.style.background = 'yellow';
+            bodySn.unshift(newPartBody);
+        }
+        verif();
+
     // move body
         if (bodySn[0]) {
             bodySn[0].style.background = '#ccc' 
@@ -124,8 +144,6 @@ function snakeUp() {
         bodySn.push(body);
         body.style.background = 'yellow';
 
-        verif();
-        snake.classList.add('snake');
     }, speedSnake);
 }
 
@@ -142,8 +160,16 @@ function snakeRight() {
             verPos = 29;
             verifAspect();
         }
-        snake.classList.remove('snake');
+        snake.style.background = '#ccc';
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
+        snake.style.background = '#fff';
+    // new body snake
+        if(snake == goal) {
+            let newPartBody = snake.previousSibling;
+            newPartBody.style.background = 'yellow';
+            bodySn.unshift(newPartBody);
+        }
+        verif();
 
     // move body
         if (bodySn[0]) {
@@ -154,8 +180,6 @@ function snakeRight() {
         bodySn.push(body);
         body.style.background = 'yellow';
      
-        verif();
-        snake.classList.add('snake');
     }, speedSnake); 
 }
 
@@ -171,8 +195,16 @@ function snakeLeft() {
             verPos = 0;
             verifAspect();
         }
-        snake.classList.remove('snake');
+        snake.style.background = '#ccc';
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
+        snake.style.background = '#fff';
+
+        if(snake == goal) {
+            let newPartBody = snake.nextSibling;
+            newPartBody.style.background = 'yellow';
+            bodySn.unshift(newPartBody);
+        }
+        verif();
     // move body
         if (bodySn[0]) {
             bodySn[0].style.background = '#ccc' 
@@ -182,40 +214,29 @@ function snakeLeft() {
         bodySn.push(body);
         body.style.background = 'yellow';
 
-        verif();
-        snake.classList.add('snake');
     }, speedSnake);
 }
-
-// create BODY Test
-function bodyS() {
-    for (let j = 0; j < 3; j++) {
-        let part = snake.parentNode.previousSibling.childNodes[horPos];
-        bodySn.push(part);
-        part.style.background = 'yellow';
-    }
-}
-bodyS();
 
 // verification goal
 function verif() {
     if (snake == goal) {
         countGoal += 1;
         resGoal.textContent = countGoal;
+
         runGoal();
     }
 }
 // verification aspect
 function verifAspect() {
-    let end = document.createElement('span');
-    end.textContent = 'Game Over';
-    table.appendChild(end);
-    end.style.display = 'block';
-    document.removeEventListener('keyup', hitKey, false);
     clearInterval(runSnakeUp);
     clearInterval(runSnakeDown);
     clearInterval(runSnakeRight);
     clearInterval(runSnakeLeft);
+    let end = document.createElement('span');
+    end.textContent = 'Game Over';
+    table.appendChild(end);
+    end.style.display = 'block';
+    document.removeEventListener('keyup', hitKey, false);  
 }
 
 
