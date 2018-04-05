@@ -51,15 +51,15 @@ let snake = table.firstChild.childNodes[4].childNodes[4];
 snake.style.background = '#fff';
 // body snace
 for (let j = 0; j < lenghtSnake; j++) {
+    clearInterval(runSnakeDown);
     if(part == undefined) {
         part = snake.parentNode.previousSibling.childNodes[horPos];
     } else {
         part = part.parentNode.previousSibling.childNodes[horPos];
     }
-    
-    console.log(part);
-    bodySn.push(part);
+    bodySn.unshift(part);
     part.style.background = 'yellow';
+    snakeDown();
 }
 
 document.addEventListener('keyup', hitKey, false);
@@ -67,11 +67,8 @@ function hitKey(e) {
     let keyName  = e.key;
     
     if(keyName == 'ArrowUp') snakeUp();
-    
     if(keyName == 'ArrowDown') snakeDown();
-
     if(keyName == 'ArrowRight') snakeRight();
-
     if(keyName == 'ArrowLeft') snakeLeft();
 }
 
@@ -238,8 +235,5 @@ function verifAspect() {
     end.style.display = 'block';
     document.removeEventListener('keyup', hitKey, false);  
 }
-
-
-snakeDown();
 
 
