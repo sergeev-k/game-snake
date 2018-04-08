@@ -58,7 +58,7 @@ for (let j = 0; j < lenghtSnake; j++) {
         part = part.parentNode.previousSibling.childNodes[horPos];
     }
     bodySn.unshift(part);
-    part.style.background = 'yellow';
+    part.style.background = '#fff';
     snakeDown();
 }
 
@@ -86,25 +86,25 @@ function snakeDown() {
             verifAspect();
         }
         
-        snake.style.background = '#ccc';
+        snake.style.background = '#727272';
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
         snake.style.background = '#fff';
     // new body snake
         if(snake == goal) {
             let newPartBody = snake.parentNode.previousSibling.childNodes[verPos];
-            newPartBody.style.background = 'yellow';
+            newPartBody.style.background = '#fff';
             bodySn.unshift(newPartBody);
         }
         verif();
 
     // move body
         if (bodySn[0]) {
-            bodySn[0].style.background = '#ccc' 
+            bodySn[0].style.background = '#727272' 
         }
         let body = snake.parentNode.previousSibling.childNodes[verPos];
         bodySn.shift();
         bodySn.push(body);
-        body.style.background = 'yellow';
+        body.style.background = '#fff';
 
     }, speedSnake);
 }
@@ -121,25 +121,25 @@ function snakeUp() {
             horPos = 0;
             verifAspect();
         }
-        snake.style.background = '#ccc';
+        snake.style.background = '#727272';
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
         snake.style.background = '#fff';
     // new body snake
         if(snake == goal) {
             let newPartBody = snake.parentNode.nextSibling.childNodes[verPos];
-            newPartBody.style.background = 'yellow';
+            newPartBody.style.background = '#fff';
             bodySn.unshift(newPartBody);
         }
         verif();
 
     // move body
         if (bodySn[0]) {
-            bodySn[0].style.background = '#ccc' 
+            bodySn[0].style.background = '#727272' 
         }
         let body = snake.parentNode.nextSibling.childNodes[verPos];
         bodySn.shift();
         bodySn.push(body);
-        body.style.background = 'yellow';
+        body.style.background = '#fff';
 
     }, speedSnake);
 }
@@ -157,25 +157,25 @@ function snakeRight() {
             verPos = 29;
             verifAspect();
         }
-        snake.style.background = '#ccc';
+        snake.style.background = '#727272';
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
         snake.style.background = '#fff';
     // new body snake
         if(snake == goal) {
             let newPartBody = snake.previousSibling;
-            newPartBody.style.background = 'yellow';
+            newPartBody.style.background = '#fff';
             bodySn.unshift(newPartBody);
         }
         verif();
 
     // move body
         if (bodySn[0]) {
-            bodySn[0].style.background = '#ccc' 
+            bodySn[0].style.background = '#727272' 
         }
         let body = snake.previousSibling;
         bodySn.shift();
         bodySn.push(body);
-        body.style.background = 'yellow';
+        body.style.background = '#fff';
      
     }, speedSnake); 
 }
@@ -192,24 +192,24 @@ function snakeLeft() {
             verPos = 0;
             verifAspect();
         }
-        snake.style.background = '#ccc';
+        snake.style.background = '#727272';
         snake = table.firstChild.childNodes[horPos].childNodes[verPos];
         snake.style.background = '#fff';
 
         if(snake == goal) {
             let newPartBody = snake.nextSibling;
-            newPartBody.style.background = 'yellow';
+            newPartBody.style.background = '#fff';
             bodySn.unshift(newPartBody);
         }
         verif();
     // move body
         if (bodySn[0]) {
-            bodySn[0].style.background = '#ccc' 
+            bodySn[0].style.background = '#727272' 
         }
         let body = snake.nextSibling;
         bodySn.shift();
         bodySn.push(body);
-        body.style.background = 'yellow';
+        body.style.background = '#fff';
 
     }, speedSnake);
 }
@@ -219,7 +219,7 @@ function verif() {
     if (snake == goal) {
         countGoal += 1;
         resGoal.textContent = countGoal;
-
+        speedSnake -= 20;
         runGoal();
     }
 }
@@ -233,7 +233,8 @@ function verifAspect() {
     end.textContent = 'Game Over';
     table.appendChild(end);
     end.style.display = 'block';
-    document.removeEventListener('keyup', hitKey, false);  
+    document.removeEventListener('keyup', hitKey, false);
+    goal.style.animationPlayState = 'paused';  
 }
 
 
